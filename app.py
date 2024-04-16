@@ -28,8 +28,8 @@ st.markdown("""
 with st.container(height=190, border=True):
     st.markdown("#### Uploads")
     col1, col2 = st.columns(2)
-    document = file_uploader(col1, "Bill")
-    file_uploader(col2, "Explanatory Notes")
+    bill = file_uploader(col1, "Bill")
+    xnote = file_uploader(col2, "Explanatory Notes")
 
 with st.container(height=310, border=True):
     st.markdown("#### Analysis")
@@ -38,7 +38,7 @@ with st.container(height=310, border=True):
     with tab1:
         st.markdown("##### Found inconsistencies:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-            answer = chat_bot.ask(question="Describe the text", documents=document[5:7])
+            answer = chat_bot.ask(question="Check for inconsistencies between the provided bill and its explanatory note.", bills=bill, xnotes=xnote)
             st.write(answer)
 
     # task 2
