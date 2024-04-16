@@ -1,11 +1,11 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 
-from chat_pipeline import Pipeline as p1
-from chat_pipeline_part_2 import Pipeline as p2
+from chat_pipeline_task1 import Pipeline as p1
+from chat_pipeline_task2 import Pipeline as p2
 
-chat_bot = p1("Chat_1")
-chat_bot_2 = p2("Chat_2")
+chat_bot1 = p1("Chat_1")
+chat_bot2 = p2("Chat_2")
 
 
 def file_uploader(cont, label):
@@ -14,7 +14,7 @@ def file_uploader(cont, label):
         if uploaded_file is not None:
             with open(uploaded_file.name, mode='wb') as w:
                 w.write(uploaded_file.getvalue())
-            return chat_bot._load(uploaded_file.name)
+            return chat_bot1._load(uploaded_file.name)
 
 
 st.set_page_config(layout="wide")
@@ -41,14 +41,17 @@ with st.container(height=310, border=True):
     with tab1:
         st.markdown("##### Found inconsistencies:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-            answer = chat_bot.ask(question="Check for inconsistencies between the provided bill and its explanatory note overall, section by section and also part by part.", bills=bill, xnotes=xnote)
+            answer = ""
+            if bill is not None and xnote is not None:
+                answer = chat_bot1.ask(question="Check for inconsistencies between the provided bill and its explanatory note overall and also section by section and part by part.", bills=bill, xnotes=xnote)
             st.write(answer)
 
     # task 2
     with tab2:
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-            answer = chat_bot_2.ask(
-                documents=bill)
-            st.write("Potential Questions: \n\n", answer)
-            # for i in ["bill 1", "bill 2", "bill 3"]:
-            #     st.markdown("- " + i)
+            st.markdown("##### Potential Questions:")
+            answer = ""
+            if bill is not None:
+                answer = chat_bot2.ask(documents=bill)
+                for qi, ques in enumerate(answer.split('?')):
+                    st.markdown("Q{qi}: {ques}")

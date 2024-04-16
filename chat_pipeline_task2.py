@@ -19,26 +19,25 @@ os.environ["AZURE_OPENAI_API_KEY"] = "7e6ee155fbeb4b0cab189e75c325be89"
 
 
 def read_sentences_to_paragraph(filename):
-  """
-  Reads sentences from a CSV file and combines them into one paragraph.
+    """
+    Reads sentences from a CSV file and combines them into one paragraph.
 
-  Args:
+    Args:
       filename: The path to the CSV file containing the sentences.
 
-  Returns:
+    Returns:
       A string containing all the sentences combined into one paragraph.
-  """
-  sentences = []
-  with open(filename, 'r') as csvfile:
-    reader = csv.reader(csvfile)
-    next(reader)  # Skip the header row using next()
-    for row in reader:
-      sentences.append(row[0])  # Assuming sentences are in the first column
+    """
+    sentences = []
+    with open(filename, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # Skip the header row using next()
+        for row in reader:
+            sentences.append(row[0])  # Assuming sentences are in the first column
 
-  # Combine sentences into a paragraph with spaces in between
-  paragraph = "\n".join(sentences)
-
-  return paragraph
+    # Combine sentences into a paragraph with spaces in between
+    paragraph = "\n".join(sentences)
+    return paragraph
 
 
 class Pipeline:
@@ -69,7 +68,7 @@ class Pipeline:
 
     @property
     def llm(self):
-        return AzureChatOpenAI(deployment_name="team-22")
+        return AzureChatOpenAI(deployment_name="team-22", temperature=0)
 
     # def preprocess(self,
     #                data_path: str) -> None:
@@ -84,7 +83,7 @@ class Pipeline:
             system_prompt: str = DEFAULT_SYSTEM_PROMPT,
             documents: str = None):
         context = "\n".join([d.page_content for d in documents])
-        contextual_questions = read_sentences_to_paragraph("./data/fox_hunting_questions.csv")
+        contextual_questions = read_sentences_to_paragraph("data/fox_hunting_questions.csv")
         enriched_prompt = f""" {system_prompt}
         {context}
         
