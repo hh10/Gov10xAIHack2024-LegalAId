@@ -69,7 +69,7 @@ class Pipeline:
 
     @property
     def llm(self):
-        return AzureChatOpenAI(deployment_name="team-22")
+        return AzureChatOpenAI(deployment_name="team-22", temperature=0)
 
     # def preprocess(self,
     #                data_path: str) -> None:
