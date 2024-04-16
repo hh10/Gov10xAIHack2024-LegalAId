@@ -91,8 +91,9 @@ class Pipeline:
         enriched_prompt = f""" {system_prompt}
 
         {context}
-        here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('data/fox_hunting_questions.csv')}
         Question: {question}
+        here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('data/fox_hunting_questions.csv')}
+
         Helpful Answer:"""
         answer = self.llm.invoke(input=[HumanMessage(content=enriched_prompt)]).content
 
@@ -101,6 +102,9 @@ class Pipeline:
 
 if __name__ == '__main__':
    print(f'''here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('C:/Users/seant/OneDrive/Documents/Python Scripts/GovernmentHack24/data/fox_hunting_questions.csv')}''')
+   # here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('data/fox_hunting_questions.csv')}
+
+
 #     chat_bot = Pipeline('current_chatbot')
 #     document = chat_bot._load("../data/test_10.pdf")
 #     answer = chat_bot.ask(question=input("Please ask a question:"), documents=document[5:7])
