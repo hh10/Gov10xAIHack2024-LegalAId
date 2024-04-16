@@ -28,9 +28,8 @@ class Pipeline:
         }
 
     @staticmethod
-    def _load(path: str, ex_path: str):
-        return {'ex' : PyPDFLoader(ex_path).load(),
-        'bill' : PyPDFLoader(path).load()}
+    def _load(path: str):
+        return PyPDFLoader(path).load()
 
     @staticmethod
     def split(docs,

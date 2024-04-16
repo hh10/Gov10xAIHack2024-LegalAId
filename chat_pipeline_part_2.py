@@ -36,7 +36,7 @@ def read_sentences_to_paragraph(filename):
       sentences.append(row[0])  # Assuming sentences are in the first column
 
   # Combine sentences into a paragraph with spaces in between
-  paragraph = " ".join(sentences)
+  paragraph = "\n".join(sentences)
 
   return paragraph
 
@@ -81,32 +81,23 @@ class Pipeline:
         # self.store()
 
     def ask(self,
-            question: str,
             system_prompt: str = DEFAULT_SYSTEM_PROMPT,
-            search_type: str = "mmr",
-            k: int = 20,
-            fetch_k: int = 50,
             documents: str = None):
-        context = "\n\n".join([d.page_content for d in documents])
+        context = "\n".join([d.page_content for d in documents])
+        contextual_questions = read_sentences_to_paragraph("./data/fox_hunting_questions.csv")
         enriched_prompt = f""" {system_prompt}
-
         {context}
-        Question: {question}
-        here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('data/fox_hunting_questions.csv')}
-
+        
+        Below are some questions from debates for similar legislative bills. Please read through the questions and propose some new ones inspired by those given. The questions should be reasonable and you should make referrence to where they apply in the bill where possible.
+        {contextual_questions}
+        
         Helpful Answer:"""
         answer = self.llm.invoke(input=[HumanMessage(content=enriched_prompt)]).content
-
-        return answer  # , retrieved_docs
-
-
-if __name__ == '__main__':
-   print(f'''here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('C:/Users/seant/OneDrive/Documents/Python Scripts/GovernmentHack24/data/fox_hunting_questions.csv')}''')
-   # here are some relevatant questions from previous debates to consider: {read_sentences_to_paragraph('data/fox_hunting_questions.csv')}
+        return answer
 
 
+# if __name__ == '__main__':
 #     chat_bot = Pipeline('current_chatbot')
-#     document = chat_bot._load("../data/test_10.pdf")
-#     answer = chat_bot.ask(question=input("Please ask a question:"), documents=document[5:7])
+#     document = chat_bot._load("./data/fox_hunting_bill.pdf")
+#     answer = chat_bot.ask(documents=document)
 #     print(answer)
-#     return None

@@ -1,9 +1,11 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 
-from chat_pipeline import Pipeline
+from chat_pipeline import Pipeline as p1
+from chat_pipeline_part_2 import Pipeline as p2
 
-chat_bot = Pipeline('current_chatbot')
+chat_bot = p1("Chat_1")
+chat_bot_2 = p2("Chat_2")
 
 
 def file_uploader(cont, label):
@@ -34,7 +36,7 @@ with st.container(height=190, border=True):
 
 with st.container(height=310, border=True):
     st.markdown("#### Analysis")
-    tab1, tab2, tab3 = st.tabs(["Consistency Checker", "Relevance+Coverage Checker", "Contradiction Checker"])
+    tab1, tab2 = st.tabs(["Consistency Checker", "Relevance+Coverage Checker"])#, "Contradiction Checker"])
     # task 1
     with tab1:
         st.markdown("##### Found inconsistencies:")
@@ -44,17 +46,9 @@ with st.container(height=310, border=True):
 
     # task 2
     with tab2:
-        col1, col2 = st.columns(2)
-        with col1:
-            col1.markdown("##### Relevant previous bills:")
-            with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-                st.write("LLM output as a list")
-                for i in ["bill 1", "bill 2", "bill 3"]:
-                    st.markdown("- " + i)
-
-        with col2:
-            col2.markdown("##### Missed aspects from the highlighted bill:")
-            with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-                st.write("LLM output as a list")
-                for i in ["aspect 1", "aspect 2", "aspect 3"]:
-                    st.markdown("- " + i)
+        with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
+            answer = chat_bot_2.ask(
+                documents=bill)
+            st.write("Potential Questions: \n\n", answer)
+            # for i in ["bill 1", "bill 2", "bill 3"]:
+            #     st.markdown("- " + i)
