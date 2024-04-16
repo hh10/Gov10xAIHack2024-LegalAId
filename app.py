@@ -54,4 +54,4 @@ with st.container(height=310, border=True):
             if bill is not None:
                 answer = chat_bot2.ask(documents=bill)
                 for qi, ques in enumerate(answer.split('?')):
-                    st.markdown("Q{qi}: {ques}")
+                    st.markdown(f"Q{qi}: {ques}")
