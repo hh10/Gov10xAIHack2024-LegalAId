@@ -48,10 +48,11 @@ with st.container(height=310, border=True):
 
     # task 2
     with tab2:
+        st.markdown("##### Potential Questions:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-            st.markdown("##### Potential Questions:")
             answer = ""
             if bill is not None:
                 answer = chat_bot2.ask(documents=bill)
                 for qi, ques in enumerate(answer.split('?')):
-                    st.markdown(f"Q{qi}: {ques}")
+                    if ques:
+                        st.markdown(f"{ques}?")
