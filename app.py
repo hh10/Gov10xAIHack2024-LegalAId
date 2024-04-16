@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 
-from govchat.chat_pipeline import Pipeline
+from chat_pipeline import Pipeline
 
 chat_bot = Pipeline('current_chatbot')
 

@@ -18,7 +18,6 @@ os.environ["AZURE_OPENAI_API_KEY"] = "7e6ee155fbeb4b0cab189e75c325be89"
 
 
 class Pipeline:
-
     def __init__(self, name: str):
         self.name = name
         self.vector_store = None
@@ -29,8 +28,9 @@ class Pipeline:
         }
 
     @staticmethod
-    def _load(path: str):
-        return PyPDFLoader(path).load()
+    def _load(path: str, ex_path: str):
+        return {'ex' : PyPDFLoader(ex_path).load(),
+        'bill' : PyPDFLoader(path).load()}
 
     @staticmethod
     def split(docs,
@@ -75,9 +75,17 @@ class Pipeline:
         return answer  # , retrieved_docs
 
 
+    # def process_doc_pair(self, doc_dict):
+    #     ex_note = doc_dict['ex']
+    #     bill = doc_dict['bill']
+    #     section_list = []
+    #     for section in bill.sections:
+    #         document_dict['ex'][0].page_content[document_dict['ex'][0].page_content.find("COMMENTARY")]
+
+
 # if __name__ == '__main__':
 #     chat_bot = Pipeline('current_chatbot')
-#     document = chat_bot._load("../data/test_10.pdf")
+#     document_dict = chat_bot._load("./data/fox_hunting_bill.pdf", "./data/fox_hunting_ex_note.pdf")
+#     chat_bot.process_docs(document_dict)
 #     answer = chat_bot.ask(question=input("Please ask a question:"), documents=document[5:7])
 #     print(answer)
-#     return None
