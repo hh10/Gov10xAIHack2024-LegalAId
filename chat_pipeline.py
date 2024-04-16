@@ -8,7 +8,7 @@ import os
 
 
 DEFAULT_SYSTEM_PROMPT = """
-You are a legislative analyst working in the British civil service. Please answer analytically and carefully and avoid making any assumptions outside the provided context. Here is the context:
+You are a legislative analyst working in the British civil service. Please answer analytically and carefully and avoid making any assumptions outside the provided bill and explanatory note.
 """
 
 '''AZURE CREDS'''
@@ -59,14 +59,16 @@ class Pipeline:
     def ask(self,
             question: str,
             system_prompt: str = DEFAULT_SYSTEM_PROMPT,
-            search_type: str = "mmr",
-            k: int = 20,
-            fetch_k: int = 50,
-            documents: str = None):
-        context = "\n\n".join([d.page_content for d in documents])
+            bills: str = None,
+            xnotes: str = None):
+        bill = "\n\n".join([d.page_content for d in bills])
+        xnote = "\n\n".join([d.page_content for d in xnotes])
         enriched_prompt = f""" {system_prompt}
+        The explanatory note is supposed to be the summary of the bill.
 
-        {context}
+        Here is the bill: {bill}.
+
+        Here is its explanatory note: {xnote}.
 
         Question: {question}
         Helpful Answer:"""
@@ -80,4 +82,3 @@ class Pipeline:
 #     document = chat_bot._load("../data/test_10.pdf")
 #     answer = chat_bot.ask(question=input("Please ask a question:"), documents=document[5:7])
 #     print(answer)
-#     return None
