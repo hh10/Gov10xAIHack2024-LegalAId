@@ -17,13 +17,14 @@ def file_uploader(cont, label):
 
 st.set_page_config(layout="wide")
 st.markdown("<h1 style='text-align: center; color: black; top: -10'>Bill Challenger</h1>", unsafe_allow_html=True)
+            # <span style="font-family: Lora; font-size: 1em;">
 st.markdown("""
-            #### This app enables:
-
+            ##### This app enables:
+    
                 1. Checking consistency between bills and their explanatory notes.
                 2. Finding past bills relevant to a given legislation, and find possible aspects missed in the given legislation as discussed in each of the relevant ones.
                 3. Finding the past bills that may contradict with the proposals of the given legislation.  
-            """)
+            """, unsafe_allow_html=True)
 
 with st.container(height=190, border=True):
     st.markdown("#### Uploads")
@@ -38,7 +39,7 @@ with st.container(height=310, border=True):
     with tab1:
         st.markdown("##### Found inconsistencies:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
-            answer = chat_bot.ask(question="Check for inconsistencies between the provided bill and its explanatory note.", bills=bill, xnotes=xnote)
+            answer = chat_bot.ask(question="Check for inconsistencies between the provided bill and its explanatory note overall, section by section and also part by part.", bills=bill, xnotes=xnote)
             st.write(answer)
 
     # task 2
