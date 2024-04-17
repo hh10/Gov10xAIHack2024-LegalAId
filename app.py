@@ -19,6 +19,15 @@ def file_uploader(cont, label):
 
 st.set_page_config(layout="wide")
 
+# CSS to set font globally (replace with your font source)
+st.markdown("""
+<style>
+body {
+  font-family: 'Noto Sans Gurmukhi', sans-serif;
+}
+</style>
+""", unsafe_allow_html=True)
+
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
@@ -68,10 +77,10 @@ with st.container(height=190, border=True):
 
 with st.container(height=310, border=True):
     st.markdown("#### Analysis")
-    tab1, tab2 = st.tabs(["Consistency Checker", "Relevance + Coverage Checker"])#, "Contradiction Checker"])
+    tab1, tab2 = st.tabs(["Consistency Check", "Possible Weaknesses"])#, "Contradiction Checker"])
     # task 1
     with tab1:
-        st.markdown("##### Found inconsistencies:")
+        #st.markdown("##### Found inconsistencies:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
             answer = ""
             if bill is not None and xnote is not None:
@@ -80,7 +89,7 @@ with st.container(height=310, border=True):
 
     # task 2
     with tab2:
-        st.markdown("##### Potential Questions:")
+        #st.markdown("##### Potential Questions:")
         with stylable_container(key="output", css_styles="""{background-color: lightyellow}"""):
             answer = ""
             if bill is not None:
