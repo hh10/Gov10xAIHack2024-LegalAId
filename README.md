@@ -1,4 +1,4 @@
-# GovernmentHack2024-team22
+# GovernmentHack2024-LegalAId
 
 Run `streamlit run app.py`
 
