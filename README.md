@@ -1,4 +1,4 @@
-# GovernmentHack2024-LegalAId
+# 10x AI Hack 2024 - LegalAId
 
 Run `streamlit run app.py`
 
